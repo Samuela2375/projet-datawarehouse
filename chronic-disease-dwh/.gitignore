@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Données sensibles / volumineuses
+data/raw/*.csv
+data/cleaned/*.csv
+!data/raw/.gitkeep
+!data/cleaned/.gitkeep
+
+# Environnement
+.env
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
