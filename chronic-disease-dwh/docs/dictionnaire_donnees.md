@@ -1,6 +1,6 @@
 # Dictionnaire de données
 
-_Généré automatiquement le 2026-06-24 12:08:59_
+_Généré automatiquement le 2026-06-24 19:35:01_
 
 ## Résumé général
 
