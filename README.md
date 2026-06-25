@@ -190,8 +190,23 @@ cp .env.example .env  # puis renseigner les valeurs
 ## Pipeline ETL
 
 ```bash
+** positionnez-vous sur le dossier contenant les scripts ** 
+cd chronic-disease-dwh  
+
+** lanceez cette commande pour execter le script d extraction des donnees depuis le dataset **
 python etl/extract/extract.py
+
+** puis celle ci pour le script de transformation qui va normaliser les donnees, supprimer le redondances et les donnees manquantes **
 python etl/transform/transform.py
+
+** lancez ensuite celle ci pour creer la base de donnees  **
+** NB: vous devrez entrer votre mot de passe postgres **
+createdb -U postgres chronic_disease_dwh
+
+** creez les tables et n oubliez pas votre mot de passe postgres car vous allez de nouveau l utiliser  **
+psql -U postgres -d chronic_disease_dwh -f warehouse/schema/schema.sql
+
+** enfin executez la commande pour le chargement de vos donnees dans la base de donnees **
 python etl/load/load.py
 ```
 
