@@ -6,13 +6,14 @@
 
 import os
 from sqlalchemy import create_engine
-from dotenv import load_dotenv
 
-from analytics.utils import run_query, export_results
+from utils import run_query, export_results
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
+
+DB_URL = "postgresql://postgres:1234@localhost:5432/chronic_disease_dwh"
 
 QUERIES = [
     {
@@ -42,12 +43,6 @@ QUERIES = [
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    load_dotenv()
-
-    DB_URL = os.getenv(
-        "DATABASE_URL",
-        "postgresql://postgres:postgres@localhost:5432/chronic_disease_dwh"
-    )
     engine = create_engine(DB_URL)
 
     print("=" * 60)
@@ -61,9 +56,9 @@ if __name__ == "__main__":
             df = run_query(q["sql"], conn)
             export_results(df, q["export"])
 
-    # 2. Classification K-Means (script dédié)
+    # 2. Classification K-Means
     print("\n→ Classification des États (K-Means)...")
-    from analytics.risk_classification.classify_states import classifier_etats
+    from risk_classification.classify_states import classifier_etats
     classifier_etats(
         engine=engine,
         export_path="data/exports/risk_classification/clusters_etats.csv"
