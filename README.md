@@ -223,4 +223,64 @@ Le schéma (Star Schema) est disponible dans `warehouse/schema/schema.sql`.
 - [ ] Chargement de la table de faits
 - [ ] Requêtes d'analyse
 - [ ] Dashboard Power BI
-- [ ] Rapport final
+- [ ] Rapport 
+
+## Analytics
+
+Les scripts d'analyse sont dans `chronic-disease-dwh/analytics/`.
+
+### Prérequis
+Avant de lancer les analyses, le pipeline ETL doit avoir été exécuté complètement
+(extraction → transformation → chargement).
+
+### Structure des fichiers
+analytics/
+
+├── run_analytics.py                        # Script principal
+
+├── utils.py                                # Fonctions partagées
+
+├── prevalence/
+
+│   ├── top_diseases.sql                    # Top 10 maladies
+
+│   ├── by_state.sql                        # Prévalence par État
+
+│   └── by_demographics.sql                 # Prévalence par démographie
+
+├── forecasting/
+
+│   └── time_evolution.sql                  # Évolution par année
+
+└── risk_classification/
+
+└── classify_states.py                  # Classification K-Means
+
+### Lancer toutes les analyses
+
+```bash
+cd chronic-disease-dwh
+python analytics/run_analytics.py
+```
+
+Les résultats CSV sont exportés dans `data/exports/`.
+
+### Tester la syntaxe Python uniquement
+
+```bash
+python -m py_compile analytics/utils.py
+python -m py_compile analytics/risk_classification/classify_states.py
+python -m py_compile analytics/run_analytics.py
+```
+
+Aucun message = pas d'erreur ✓
+
+### Résultats exportés
+
+| Fichier CSV | Contenu |
+|---|---|
+| `data/exports/prevalence/top_diseases.csv` | Top 10 maladies |
+| `data/exports/prevalence/by_state.csv` | Prévalence par État |
+| `data/exports/prevalence/by_demographics.csv` | Prévalence par démographie |
+| `data/exports/forecasting/time_evolution.csv` | Évolution temporelle |
+| `data/exports/risk_classification/clusters_etats.csv` | Clusters K-Means |
