@@ -6,15 +6,23 @@
 
 import os
 from sqlalchemy import create_engine
-
+from dotenv import load_dotenv
 from utils import run_query, export_results
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
-DB_URL = "postgresql://postgres:1234@localhost:5432/chronic_disease_dwh"
+load_dotenv() # Add this to load your .env file
 
+# Use variables from .env instead of hardcoding
+user = os.getenv("DB_USER", "postgres")
+password = os.getenv("DB_PASSWORD", "changeme")
+host = os.getenv("DB_HOST", "localhost")
+port = os.getenv("DB_PORT", "5432")
+dbname = os.getenv("DB_NAME", "chronic_disease_dwh")
+
+DB_URL = f"postgresql://{user}:{password}@{host}:{port}/{dbname}"
 QUERIES = [
     {
         "sql":    "analytics/prevalence/top_diseases.sql",
