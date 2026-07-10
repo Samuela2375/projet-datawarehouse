@@ -284,3 +284,40 @@ Aucun message = pas d'erreur ✓
 | `data/exports/prevalence/by_demographics.csv` | Prévalence par démographie |
 | `data/exports/forecasting/time_evolution.csv` | Évolution temporelle |
 | `data/exports/risk_classification/clusters_etats.csv` | Clusters K-Means |
+
+
+
+## 📊 Guide de Test - Couche Restitution (Issue #8)
+
+Ce guide explique comment tester et valider le tableau de bord Power BI développé pour la restitution et l'analyse des données de santé.
+
+### 1. Prérequis
+Avant de commencer, assurez-vous d'avoir :
+* **Power BI Desktop** installé sur votre machine.
+* La base de données PostgreSQL du Data Warehouse active (les donnees doivent etres charger avec les tables d'analytics alimentées).
+
+### 2. Emplacement du fichier
+Le livrable se trouve à l'emplacement suivant dans le dépôt :
+`chronic-disease-dwh/dashboard/chronic_disease_dashboard.pbix`
+
+### 3. Protocole de Test
+
+1. **Ouverture du Dashboard (Attention à la méthode) :**
+   * **N'ouvrez pas le fichier depuis votre éditeur de code (VS Code afficherait une erreur de fichier binaire).
+   * Ouvrez l'**Explorateur de fichiers Windows** (le dossier jaune classique).
+   * Naviguez vers le dossier du projet : `Desktop/projet-datawarehouse/chronic-disease-dwh/dashboard/`.
+   * **Double-cliquez** sur `chronic_disease_dashboard.pbix` pour lancer l'application officielle **Power BI Desktop**.
+
+2. **Actualisation des Données (Si nécessaire) :**
+   * Si vos identifiants PostgreSQL locaux diffèrent, allez dans l'onglet **Accueil** -> **Transformer les données** -> **Paramètres de la source de données**.
+   * Modifiez les informations d'identification pour pointer vers votre instance locale du Data Warehouse, puis cliquez sur **Actualiser**.
+
+3. **Validation des Visuels Graphiques :**
+   * **KPIs :** Vérifiez que les cartes de performance (indicateurs colorés) affichent correctement les volumes globaux.
+   * **Top 10 :** Manipulez l'histogramme pour valider le classement des pathologies/données.
+   * **Analyse Temporelle :** Utilisez la courbe chronologique pour observer l'évolution des données.
+   * **Filtres croisés :** Cliquez sur un élément d'un graphique (ex: une barre de l'histogramme) et vérifiez que tous les autres visuels s'actualisent dynamiquement.
+
+4. **Conformité des Données :**
+   * Les chiffres affichés dans les visuels doivent être strictement alignés avec les résultats des requêtes SQL d'analytics (Issue #4).
+   * La correction du typage des coordonnées géographiques (latitude/longitude) via Power Query a été validée et ne bloque plus le modèle.
