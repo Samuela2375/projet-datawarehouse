@@ -309,7 +309,7 @@ analytics/
 
 ```bash
 cd chronic-disease-dwh
-python analytics/run_analytics.py
+python -m analytics.run_analytics
 ```
 
 Les résultats CSV sont exportés dans `data/exports/`.
@@ -340,7 +340,7 @@ Ce guide explique comment tester et valider le tableau de bord Power BI dévelop
 
 ### 1. Prérequis
 * **Power BI Desktop** installé sur votre machine.
-* La base de données PostgreSQL du Data Warehouse active, avec les données chargées **et** les tables d'analytics alimentées (`python analytics/run_analytics.py`).
+* La base de données PostgreSQL du Data Warehouse active, avec les données chargées **et** les tables d'analytics alimentées (`python -m analytics.run_analytics`).
 
 ### 2. Emplacement du fichier
 `chronic-disease-dwh/dashboard/chronic_disease_dashboard.pbix`

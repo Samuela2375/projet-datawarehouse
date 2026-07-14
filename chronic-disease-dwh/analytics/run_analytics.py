@@ -1,28 +1,29 @@
 # =============================================================================
 # analytics/run_analytics.py
 # Point d'entrée principal — exécute toutes les analyses et exporte les CSV
-# Usage : python analytics/run_analytics.py
+# Usage : python -m analytics.run_analytics
 # =============================================================================
 
 import os
+from urllib.parse import quote_plus
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
-from utils import run_query, export_results
+from analytics.utils import run_query, export_results
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
-load_dotenv() # Add this to load your .env file
+load_dotenv()
 
-# Use variables from .env instead of hardcoding
-user = os.getenv("DB_USER", "postgres")
+user     = os.getenv("DB_USER", "postgres")
 password = os.getenv("DB_PASSWORD", "changeme")
-host = os.getenv("DB_HOST", "localhost")
-port = os.getenv("DB_PORT", "5432")
-dbname = os.getenv("DB_NAME", "chronic_disease_dwh")
+host     = os.getenv("DB_HOST", "localhost")
+port     = os.getenv("DB_PORT", "5432")
+dbname   = os.getenv("DB_NAME", "chronic_disease_dwh")
 
-DB_URL = f"postgresql://{user}:{password}@{host}:{port}/{dbname}"
+DB_URL = f"postgresql://{user}:{quote_plus(password)}@{host}:{port}/{dbname}"
+
 QUERIES = [
     {
         "sql":    "analytics/prevalence/top_diseases.sql",
@@ -66,7 +67,7 @@ if __name__ == "__main__":
 
     # 2. Classification K-Means
     print("\n→ Classification des États (K-Means)...")
-    from risk_classification.classify_states import classifier_etats
+    from analytics.risk_classification.classify_states import classifier_etats
     classifier_etats(
         engine=engine,
         export_path="data/exports/risk_classification/clusters_etats.csv"
